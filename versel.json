@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "*.m3u",
+        "src": "Starshare.m3u",
         "use": "@vercel/static"
       }
     ],
     "routes": [
       {
-        "src": "/(.*)",
-        "dest": "/$1"
+        "src": "/Starshare.m3u",
+        "dest": "/Starshare.m3u"
       }
     ]
   }
