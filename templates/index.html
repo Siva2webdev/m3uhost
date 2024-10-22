@@ -8,14 +8,16 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #070707;
             margin: 0;
             padding: 20px;
+            color: #faf6f6;
         }
 
         h1 {
-            color: #333;
             text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
         }
 
         form {
@@ -35,6 +37,12 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             width: 300px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
         }
 
         button {
@@ -45,6 +53,8 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
         }
 
         button:hover {
@@ -56,24 +66,33 @@
             padding: 15px;
             background-color: white;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            color: #070707;
         }
 
         .error {
             color: red;
+            font-weight: bold;
         }
 
         .success {
             color: green;
+            font-weight: bold;
         }
 
         pre {
             white-space: pre-wrap; /* Enables word wrapping */
             word-wrap: break-word; /* Breaks long words */
             font-family: inherit; /* Use the same font as body */
+            margin: 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto; /* Adds horizontal scroll if needed */
         }
 
         .result h2 {
@@ -83,7 +102,7 @@
     </style>
 </head>
 <body>
-    <h1>M3U Status Checker</h1>
+    <h1>M3U Status Checker BY BINDAAS</h1>
     <form method="POST">
         <label for="m3u_link">Enter M3U Link:</label>
         <input type="text" id="m3u_link" name="m3u_link" required>
@@ -97,20 +116,42 @@
             {% if result[0].startswith('Error:') %}
             <span class="error">{{ result[0] }}</span>
             {% else %}
-            <span class="success">{{ result[0] }}</span>
-            m3u_link: {{ result[10] }}
-            Username: {{ result[1] }}
-            Password: {{ result[2] }}
-            Expiry Date: {{ result[3] }}
-            Active Connections: {{ result[4] }}
-            Max Connections: {{ result[5] }}
-            Live Categories: {{ ', '.join(result[6]) }}
-            VOD Categories: {{ ', '.join(result[7]) }}
-            Series Categories: {{ ', '.join(result[8]) }}
-            Telugu: {{ result[9] }}
+            <span class="success">🚦{{ result[0] }}</span>
+            🌎m3u_link: {{ result[10] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[10] }}')"></i>
+            👤Username: {{ result[1] }}
+            🔑Password: {{ result[2] }}
+            ⏱️Expiry Date: {{ result[3] }}
+            🔌Active Connections: {{ result[4] }}
+            🚌Max Connections: {{ result[5] }}
+            ⛩️ 🅼🅴🅳🅸🅰️ 🅻🅸🆂🆃 ⛩️
+            📺Live Categories✅ : {{ ', '.join(result[6]) }}
+            🎬VOD Categories✅ : {{ ', '.join(result[7]) }}
+            🍿Series Categories✅ : {{ ', '.join(result[8]) }}
+            🎯Telugu🎯: {{ result[9] }}
             {% endif %}
         </pre>
     </div>
     {% endif %}
+    <script>
+        function copyToClipboard(text) {
+            const tempInput = document.createElement("textarea");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Copied to clipboard!");
+        }
+    // <script>
+    //     function copyToClipboard(text) {
+    //         navigator.clipboard.writeText(text).then(() => {
+    //             alert("Copied to clipboard: " + text);
+    //         }).catch(err => {
+    //             console.error('Failed to copy: ', err);
+    //         });
+    //     }
+    // </script>
 </body>
 </html>
