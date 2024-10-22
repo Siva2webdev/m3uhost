@@ -64,7 +64,8 @@ def verificar_status_m3u(link_m3u):
 
         # Check if "telugu" or "telegu" is in live categories
         telugu_present = any("telugu" in category.lower() or "telegu" in category.lower() for category in live_categories)
-
+        telugu_present1 = any("telugu" in category.lower() or "telegu" in category.lower() for category in vod_categories)
+        telugu_present2 = any("telugu" in category.lower() or "telegu" in category.lower() for category in series_categories)
         if isinstance(data, dict) and 'user_info' in data and 'username' in data['user_info']:
             status = data['user_info']['status']
             exp_date = data['user_info'].get('exp_date', "N/A")
@@ -74,12 +75,12 @@ def verificar_status_m3u(link_m3u):
                 exp_date = time.strftime('%d.%m.%Y', time.localtime(int(exp_date)))
             if status == 'Active':
                 return (f"Active [●]", usuario, senha, exp_date, active_connections, max_connections,
-                        live_categories, vod_categories, series_categories, telugu_present, link_m3u)
+                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2)
             else:
                 return (f"INACTIVE [●]", usuario, senha, exp_date,
-                        live_categories, vod_categories, series_categories, telugu_present, link_m3u)
+                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2)
         else:
-            return "INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present, link_m3u
+            return "INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2
     except Exception as e:
         return f"Error: {str(e)}", None, None, None, None, None, None, None
 

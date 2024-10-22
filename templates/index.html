@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M3U Status Checker</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         body {
@@ -117,17 +118,18 @@
             <span class="error">{{ result[0] }}</span>
             {% else %}
             <span class="success">🚦{{ result[0] }}</span>
+            🎯Telugu_Live🎯: {{ result[9] }}
+            🎯Telugu_Vod🎯: {{ result[11] }}
+            🎯Telugu_Series🎯: {{ result[12] }}
             🌎m3u_link: {{ result[10] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[10] }}')"></i>
             👤Username: {{ result[1] }}
             🔑Password: {{ result[2] }}
             ⏱️Expiry Date: {{ result[3] }}
-            🔌Active Connections: {{ result[4] }}
-            🚌Max Connections: {{ result[5] }}
+            🔌Active Connections: {{ result[4] }} / {{ result[5] }}
             ⛩️ 🅼🅴🅳🅸🅰️ 🅻🅸🆂🆃 ⛩️
             📺Live Categories✅ : {{ ', '.join(result[6]) }}
             🎬VOD Categories✅ : {{ ', '.join(result[7]) }}
             🍿Series Categories✅ : {{ ', '.join(result[8]) }}
-            🎯Telugu🎯: {{ result[9] }}
             {% endif %}
         </pre>
     </div>
