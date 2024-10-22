@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U Status Checker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        pre {
+            white-space: pre-wrap; /* Enables word wrapping */
+            word-wrap: break-word; /* Breaks long words */
+            font-family: inherit; /* Use the same font as body */
+        }
+
+        .result h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>M3U Status Checker</h1>
+    <form method="POST">
+        <label for="m3u_link">Enter M3U Link:</label>
+        <input type="text" id="m3u_link" name="m3u_link" required>
+        <button type="submit">Check Status</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>Result:</h2>
+        <pre>
+            {% if result[0].startswith('Error:') %}
+            <span class="error">{{ result[0] }}</span>
+            {% else %}
+            <span class="success">{{ result[0] }}</span>
+            m3u_link: {{ result[10] }}
+            Username: {{ result[1] }}
+            Password: {{ result[2] }}
+            Expiry Date: {{ result[3] }}
+            Active Connections: {{ result[4] }}
+            Max Connections: {{ result[5] }}
+            Live Categories: {{ ', '.join(result[6]) }}
+            VOD Categories: {{ ', '.join(result[7]) }}
+            Series Categories: {{ ', '.join(result[8]) }}
+            Telugu: {{ result[9] }}
+            {% endif %}
+        </pre>
+    </div>
+    {% endif %}
+</body>
+</html>
