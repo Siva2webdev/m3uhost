@@ -51,12 +51,18 @@ def verificar_status_m3u(link_m3u):
         liveurl = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_live_categories"
         vodurl = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_vod_categories"
         seriesurl = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_series_categories"
+        live_channels_url = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_live_streams"
+
         session = requests.Session()
 
         data = fetch_url(session, link)
         live_data = fetch_url(session, liveurl)
         vod_data = fetch_url(session, vodurl)
         series_data = fetch_url(session, seriesurl)
+        live_channels_data = fetch_url(session, live_channels_url)
+
+        # Count the live channels
+        live_channels_count = len(live_channels_data) if isinstance(live_channels_data, list) else 0
 
         live_categories = [category['category_name'] for category in live_data] if isinstance(live_data, list) else []
         vod_categories = [category['category_name'] for category in vod_data] if isinstance(vod_data, list) else []
@@ -66,6 +72,7 @@ def verificar_status_m3u(link_m3u):
         telugu_present = any("telugu" in category.lower() or "telegu" in category.lower() for category in live_categories)
         telugu_present1 = any("telugu" in category.lower() or "telegu" in category.lower() for category in vod_categories)
         telugu_present2 = any("telugu" in category.lower() or "telegu" in category.lower() for category in series_categories)
+        
         if isinstance(data, dict) and 'user_info' in data and 'username' in data['user_info']:
             status = data['user_info']['status']
             exp_date = data['user_info'].get('exp_date', "N/A")
@@ -75,12 +82,12 @@ def verificar_status_m3u(link_m3u):
                 exp_date = time.strftime('%d.%m.%Y', time.localtime(int(exp_date)))
             if status == 'Active':
                 return (f"Active [●]", usuario, senha, exp_date, active_connections, max_connections,
-                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2)
+                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2, live_channels_count)
             else:
                 return (f"INACTIVE [●]", usuario, senha, exp_date,
-                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2)
+                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2, live_channels_count)
         else:
-            return "INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2
+            return "INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2, live_channels_count
     except Exception as e:
         return f"Error: {str(e)}", None, None, None, None, None, None, None
 
@@ -93,4 +100,4 @@ def index():
     return render_template('index.html', result=result)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
