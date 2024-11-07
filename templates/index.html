@@ -8,6 +8,23 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
+         /* Disco animation for the title */
+         @keyframes disco {
+                0% { color: #FF0000; }
+                20% { color: #FF7F00; }
+                40% { color: #FFFF00; }
+                60% { color: #00FF00; }
+                80% { color: #0000FF; }
+                100% { color: #8B00FF; }
+            }
+         @keyframes disco1 {
+                0% { color: #FF0000; }
+                20% { color: #FF7F00; }
+                40% { color: #515103; }
+                60% { color: #090909; }
+                80% { color: #0000FF; }
+                100% { color: #8B00FF; }
+            }
         body {
             font-family: Arial, sans-serif;
             background-color: #070707;
@@ -20,7 +37,9 @@
             text-align: center;
             margin-bottom: 30px;
             color: #007bff;
+            animation: disco 1s infinite;
         }
+       
 
         form {
             display: flex;
@@ -104,7 +123,11 @@
     </style>
 </head>
 <body>
-    <h1>M3U Status Checker BY BINDAAS</h1>
+    <h1>Bindaas</h1>
+    <!-- <h2>M3U Status Checker</h2> -->
+    <h2 style="font-size: 2em; background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); -webkit-background-clip: text; color: transparent; margin-top: 10px; text-align: center;">
+        M3U Status Checker
+    </h2>
     <form method="POST">
         <label for="m3u_link">Enter M3U Link:</label>
         <input type="text" id="m3u_link" name="m3u_link" required>
@@ -113,8 +136,11 @@
 
     {% if result %}
     <div class="result">
-        <h2>Result:</h2>
-        <pre>
+        <span style="display: flex; align-items: center; gap: 10px;">
+            <h4>Telegram: <a style="animation: disco1 0.5s infinite;" href="https://t.me/Bindaa_ss" target="_blank">Join</a></h4>
+            <h4>Combo to M3U link Converter: <a style="animation: disco1 0.5s infinite;" href="https://url-pxl.vercel.app/" target="_blank">Click Here</a></h4>
+        </span>
+                <pre>
             {% if result[0].startswith('Error:') %}
             <span class="error">{{ result[0] }}</span>
             {% else %}
@@ -122,6 +148,7 @@
             🎯Telugu_Live🎯: {{ result[9] }}
             🎯Telugu_Vod🎯: {{ result[11] }}
             🎯Telugu_Series🎯: {{ result[12] }}
+            ✍️Channels_Count✍️ : {{ result[13] }}
             🌎m3u_link: {{ result[10] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[10] }}')"></i>
             👤Username: {{ result[1] }}
             🔑Password: {{ result[2] }}
