@@ -52,6 +52,8 @@ def verificar_status_m3u(link_m3u):
         vodurl = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_vod_categories"
         seriesurl = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_series_categories"
         live_channels_url = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_live_streams"
+        vods_url = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_vod_streams"
+        Series_url = f"{full_url}/player_api.php?username={usuario}&password={senha}&action=get_series"
 
         session = requests.Session()
 
@@ -60,9 +62,13 @@ def verificar_status_m3u(link_m3u):
         vod_data = fetch_url(session, vodurl)
         series_data = fetch_url(session, seriesurl)
         live_channels_data = fetch_url(session, live_channels_url)
+        vods_data = fetch_url(session, vods_url)
+        series_count_data = fetch_url(session, Series_url)
 
         # Count the live channels
         live_channels_count = len(live_channels_data) if isinstance(live_channels_data, list) else 0
+        vods_count = len(vods_data) if isinstance(vods_data, list) else 0
+        series_count = len(series_count_data) if isinstance(series_count_data, list) else 0
 
         live_categories = [category['category_name'] for category in live_data] if isinstance(live_data, list) else []
         vod_categories = [category['category_name'] for category in vod_data] if isinstance(vod_data, list) else []
@@ -78,16 +84,21 @@ def verificar_status_m3u(link_m3u):
             exp_date = data['user_info'].get('exp_date', "N/A")
             active_connections = data['user_info'].get('active_cons', "N/A")
             max_connections = data['user_info'].get('max_connections', "N/A")
+            main_url = data['server_info']['url']
+            TZ = data['server_info']['timezone']
             if exp_date != "N/A":
                 exp_date = time.strftime('%d.%m.%Y', time.localtime(int(exp_date)))
             if status == 'Active':
-                return (f"Active [●]", usuario, senha, exp_date, active_connections, max_connections,
-                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2, live_channels_count)
+                return (f"Active [✅ 🥳 ]", usuario, senha, exp_date, active_connections, max_connections,
+                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1,
+                          telugu_present2, live_channels_count, vods_count, series_count, main_url, TZ)
             else:
                 return (f"INACTIVE [●]", usuario, senha, exp_date,
-                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2, live_channels_count)
+                        live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1,
+                          telugu_present2, live_channels_count, vods_count, series_count, main_url)
         else:
-            return "INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1, telugu_present2, live_channels_count
+            return ("INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present,
+            link_m3u, telugu_present1, telugu_present2, live_channels_count, vods_count, series_count, main_url)
     except Exception as e:
         return f"Error: {str(e)}", None, None, None, None, None, None, None
 
