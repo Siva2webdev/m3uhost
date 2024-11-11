@@ -65,7 +65,6 @@ def verificar_status_m3u(link_m3u):
         vods_data = fetch_url(session, vods_url)
         series_count_data = fetch_url(session, Series_url)
 
-        # Count the live channels
         live_channels_count = len(live_channels_data) if isinstance(live_channels_data, list) else 0
         vods_count = len(vods_data) if isinstance(vods_data, list) else 0
         series_count = len(series_count_data) if isinstance(series_count_data, list) else 0
@@ -74,18 +73,19 @@ def verificar_status_m3u(link_m3u):
         vod_categories = [category['category_name'] for category in vod_data] if isinstance(vod_data, list) else []
         series_categories = [category['category_name'] for category in series_data] if isinstance(series_data, list) else []
 
-        # Check if "telugu" or "telegu" is in live categories
         telugu_present = any("telugu" in category.lower() or "telegu" in category.lower() for category in live_categories)
         telugu_present1 = any("telugu" in category.lower() or "telegu" in category.lower() for category in vod_categories)
         telugu_present2 = any("telugu" in category.lower() or "telegu" in category.lower() for category in series_categories)
-        
+
+        main_url = data['server_info']['url'] if isinstance(data, dict) and 'server_info' in data else "URL check failed"
+        TZ = data['server_info']['timezone'] if isinstance(data, dict) and 'server_info' in data else "N/A"
+
         if isinstance(data, dict) and 'user_info' in data and 'username' in data['user_info']:
             status = data['user_info']['status']
             exp_date = data['user_info'].get('exp_date', "N/A")
             active_connections = data['user_info'].get('active_cons', "N/A")
             max_connections = data['user_info'].get('max_connections', "N/A")
-            main_url = data['server_info']['url']
-            TZ = data['server_info']['timezone']
+
             if exp_date != "N/A":
                 exp_date = time.strftime('%d.%m.%Y', time.localtime(int(exp_date)))
             if status == 'Active':
@@ -98,9 +98,10 @@ def verificar_status_m3u(link_m3u):
                           telugu_present2, live_channels_count, vods_count, series_count, main_url)
         else:
             return ("INACTIVE", usuario, senha, None, None, None, live_categories, vod_categories, series_categories, telugu_present,
-            link_m3u, telugu_present1, telugu_present2, live_channels_count, vods_count, series_count, main_url)
+                    link_m3u, telugu_present1, telugu_present2, live_channels_count, vods_count, series_count, main_url)
     except Exception as e:
         return f"Error: {str(e)}", None, None, None, None, None, None, None
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
