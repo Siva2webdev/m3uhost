@@ -25,7 +25,7 @@ headers = {
 
 def fetch_url(session, url):
     try:
-        response = session.get(url, headers=headers, timeout=3, verify=False)
+        response = session.get(url, headers=headers, timeout=30, verify=False)
         response.raise_for_status()  # Raise HTTPError for bad responses
         if response.headers['Content-Type'] == 'application/json':
             return response.json()
