@@ -145,16 +145,13 @@
  <span class="error">{{ result[0] }}  </span>
  {% else %}
  <span class="success">🚦{{ result[0] }}</span>
- 🌟Telugu_Live🌟: {{ result[9] }}
- 🌟Telugu_Vod🌟: {{ result[11] }}
- 🌟Telugu_Series🌟: {{ result[12] }}
+ 🌟Telugu🌟: 📡 : {{ result[9] }}, 🎬: {{ result[11] }}, 📚: {{ result[12] }}
  📡Channels📡 : {{ result[13] }}     🎬VOD🎬 : {{ result[14] }}     📚 Series 📚  : {{ result[15] }}
- 🗺️TimeZone🗺️ : {{ result[17] }}
- 🌎m3u_link: {{ result[10] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[10] }}')"></i>
  🌐Main_url🌐 : {{ result[16] }}
- 👤Username: {{ result[1] }}
- 🔑Password: {{ result[2] }}
- ⏱️Expiry Date: {{ result[3] }}
+ 👤Username: {{ result[1] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[1] }}')"></i>,🔑Password: {{ result[2] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[2] }}')"></i>
+ ⏱️Expiry Date: {{ result[3] }}, is_trial: {{result[18]}}
+ 🌎m3u_link: {{ result[10] }} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('{{ result[10] }}')"></i>
+ 🗺️TimeZone🗺️ : {{ result[17] }}
  🔌Active Connections: {{ result[4] }} / {{ result[5] }}
  ⛩️ 🅼🅴🅳🅸🅰️ 🅻🅸🆂🆃 ⛩️
  📡Live Categories✅ : {{ ', '.join(result[6]) }}
