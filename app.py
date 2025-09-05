@@ -82,16 +82,19 @@ def verificar_status_m3u(link_m3u):
 
         if isinstance(data, dict) and 'user_info' in data and 'username' in data['user_info']:
             status = data['user_info']['status']
-            exp_date = data['user_info'].get('exp_date', "N/A")
+            exp_date = data['user_info'].get('exp_date')
+            is_trial = data ['user_info'].get('is_trial', "N/A")
             active_connections = data['user_info'].get('active_cons', "N/A")
             max_connections = data['user_info'].get('max_connections', "N/A")
 
-            if exp_date != "N/A":
-                exp_date = time.strftime('%d.%m.%Y', time.localtime(int(exp_date)))
+            if exp_date and exp_date.isdigit():  # make sure it’s not None and numeric
+               exp_date = time.strftime('%d.%m.%Y', time.localtime(int(exp_date)))
+            else:
+               exp_date = "No Expiry"
             if status == 'Active':
                 return (f"Active [✅ 🥳 ]", usuario, senha, exp_date, active_connections, max_connections,
                         live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1,
-                          telugu_present2, live_channels_count, vods_count, series_count, main_url, TZ)
+                          telugu_present2, live_channels_count, vods_count, series_count, main_url, TZ,is_trial)
             else:
                 return (f"INACTIVE [●]", usuario, senha, exp_date,
                         live_categories, vod_categories, series_categories, telugu_present, link_m3u, telugu_present1,
